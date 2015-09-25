@@ -1,0 +1,78 @@
+#!/bin/bash
+
+set -e
+set -x
+
+JAVA_VERSION="jre1.7.0_80"
+S3_BUCKET="yg-buildpack-assets"
+JRE_FILE_MD5='1114d266b4fb332ed109f6e2f2af589b'
+
+JRE_FILE="${JAVA_VERSION}.tar.gz"
+JRE_URL="http://${S3_BUCKET}.s3.amazonaws.com/scala/${JRE_FILE}"
+
+APP_REPO_URL="http://nexus.stgwaw.opigram/content/repositories/distributions"
+
+BUILD_DIR="$1"
+CACHE_DIR="$2"
+BUNDLE_DIR=${CACHE_DIR}/bundles
+
+mkdir -p ${BUNDLE_DIR}
+mkdir -p ${BUILD_DIR}/vendor
+
+if [ -f "${BUNDLE_DIR}/${JRE_FILE}" ]; then
+    SUM=`md5sum ${BUNDLE_DIR}/${JRE_FILE} | cut -d ' ' -f 1`
+    if ! [ "$SUM" = "$JRE_FILE_MD5" ]; then
+        pushd ${BUNDLE_DIR}
+        curl -O $JRE_URL 
+        popd
+    fi
+else
+    pushd ${BUNDLE_DIR}
+    curl -O $JRE_URL 
+    popd
+    SUM=`md5sum ${BUNDLE_DIR}/${JRE_FILE} | cut -d ' ' -f 1`
+    if ! [ "$SUM" = "$JRE_FILE_MD5" ]; then
+        echo "MD5 sum of the downloaded file ${JRE_FILE} doesn't match expected ${JRE_FILE_MD5}"
+        exit 1
+    fi
+fi
+
+pushd ${BUILD_DIR}/vendor
+tar -xvf ${BUNDLE_DIR}/${JRE_FILE}
+ln -s ${JAVA_VERSION} java
+popd
+
+cd $BUILD_DIR
+APP_VERSION=$(cat version)
+
+pushd ${BUILD_DIR}
+curl ${APP_REPO_URL}/${APP_VERSION}  | tar -xz --strip 1
+popd
+
+pushd ${BUILD_DIR}
+mkdir -p "bin"
+cat > bin/run <<SH
+#!/usr/bin/env bash
+
+export PATH="/app/vendor/java/bin:\$HOME/bin:$PATH"
+export JAVA_HOME="/app/vendor/java"
+
+XMS=\${XMS:-256M}
+XMX=\${XMX:-256M}
+APP_ENV=\${APP_ENV:-UNKNOWN}
+
+exec java -Dhttp.port=\$PORT \
+-Dhttp.address=0.0.0.0 \
+-XX:+UseConcMarkSweepGC \
+-XX:-OmitStackTraceInFastThrow \
+-Xms\$XMS -Xmx\$XMX \
+-server  \
+-Dconfig.file=\$APP_SETTINGS_YAML \
+-cp "/app/lib/*" play.core.server.NettyServer /app/ \
+2>&1
+
+echo "Service exited"
+exit 1
+SH
+
+chmod +x "bin/run"
