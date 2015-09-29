@@ -43,10 +43,10 @@ ln -s ${JAVA_VERSION} java
 popd
 
 cd $BUILD_DIR
-APP_VERSION=$(cat version)
+ARTIFACT=$(cat conf/artifact)
 
 pushd ${BUILD_DIR}
-curl ${APP_REPO_URL}/${APP_VERSION}  | tar -xz --strip 1
+curl ${APP_REPO_URL}/${ARTIFACT}  | tar -xz --strip 1
 popd
 
 pushd ${BUILD_DIR}
