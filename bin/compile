@@ -67,7 +67,6 @@ exec java -Dhttp.port=\$PORT \
 -XX:-OmitStackTraceInFastThrow \
 -Xms\$XMS -Xmx\$XMX \
 -server  \
--Dconfig.file=\$APP_SETTINGS_YAML \
 -cp "/app/lib/*" play.core.server.NettyServer /app/ \
 2>&1
 
