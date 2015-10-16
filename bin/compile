@@ -7,8 +7,12 @@ JAVA_VERSION="jre1.7.0_80"
 S3_BUCKET="yg-buildpack-assets"
 JRE_FILE_MD5='1114d266b4fb332ed109f6e2f2af589b'
 
+S3_URL="http://${S3_BUCKET}.s3.amazonaws.com"
+
 JRE_FILE="${JAVA_VERSION}.tar.gz"
-JRE_URL="http://${S3_BUCKET}.s3.amazonaws.com/scala/${JRE_FILE}"
+JRE_URL="${S3_URL}/scala/${JRE_FILE}"
+
+NEWRELIC_URL="${S3_URL}/scala/newrelic.jar"
 
 APP_REPO_URL="http://nexus.stgwaw.opigram/content/repositories/distributions"
 
@@ -18,6 +22,7 @@ BUNDLE_DIR=${CACHE_DIR}/bundles
 
 mkdir -p ${BUNDLE_DIR}
 mkdir -p ${BUILD_DIR}/vendor
+mkdir -p ${BUILD_DIR}/newrelic
 
 if [ -f "${BUNDLE_DIR}/${JRE_FILE}" ]; then
     SUM=`md5sum ${BUNDLE_DIR}/${JRE_FILE} | cut -d ' ' -f 1`
@@ -49,6 +54,10 @@ pushd ${BUILD_DIR}
 curl ${APP_REPO_URL}/${ARTIFACT}  | tar -xz --strip 1
 popd
 
+pushd ${BUILD_DIR}/newrelic
+curl -O NEWRELIC_URL
+popd
+
 pushd ${BUILD_DIR}
 mkdir -p "bin"
 cat > bin/run <<SH
@@ -67,6 +76,8 @@ exec java -Dhttp.port=\$PORT \
 -XX:-OmitStackTraceInFastThrow \
 -Xms\$XMS -Xmx\$XMX \
 -server  \
+-javaagent:/app/newrelic/newrelic.jar \
+-Dnewrelic.config.file=\$APP_SETTINGS_YAML \
 -cp "/app/lib/*" play.core.server.NettyServer /app/ \
 2>&1
 
