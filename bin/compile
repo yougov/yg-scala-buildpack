@@ -55,7 +55,7 @@ curl ${APP_REPO_URL}/${ARTIFACT}  | tar -xz --strip 1
 popd
 
 pushd ${BUILD_DIR}/newrelic
-curl -O NEWRELIC_URL
+curl -O $NEWRELIC_URL
 popd
 
 pushd ${BUILD_DIR}
