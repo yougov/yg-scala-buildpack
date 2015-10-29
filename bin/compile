@@ -69,11 +69,13 @@ export JAVA_HOME="/app/vendor/java"
 XMS=\${XMS:-256M}
 XMX=\${XMX:-256M}
 APP_ENV=\${APP_ENV:-UNKNOWN}
+MAX_PERM_SIZE=\${MAX_PERM_SIZE:-256M}
 
 exec java -Dhttp.port=\$PORT \
 -Dhttp.address=0.0.0.0 \
 -XX:+UseConcMarkSweepGC \
 -XX:-OmitStackTraceInFastThrow \
+-XX:MaxPermSize=\$MAX_PERM_SIZE \
 -Xms\$XMS -Xmx\$XMX \
 -server  \
 -javaagent:/app/newrelic/newrelic.jar \
