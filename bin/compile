@@ -84,6 +84,7 @@ exec java -Dhttp.port=\$PORT \
 2>&1
 
 echo "Service exited"
+rm -f /app/RUNNING_PID
 exit 1
 SH
 
