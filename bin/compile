@@ -48,10 +48,10 @@ ln -s ${JAVA_VERSION} java
 popd
 
 cd $BUILD_DIR
-ARTIFACT=$(cat conf/artifact)
+conf/artifact.sh
 
 pushd ${BUILD_DIR}
-curl ${APP_REPO_URL}/${ARTIFACT}  | tar -xz --strip 1
+curl ${APP_REPO_URL}/${APP_ARTIFACT}  | tar -xz --strip 1
 popd
 
 pushd ${BUILD_DIR}/newrelic
@@ -81,7 +81,7 @@ exec java -Dhttp.port=\$PORT \
 -javaagent:/app/newrelic/newrelic.jar \
 -Dnewrelic.config.file=\$APP_SETTINGS_YAML \
 -cp "/app/lib/*" play.core.server.NettyServer /app/ \
-2>&1
+2>&1 | logger -i -p local1.warning -t ${APP_NAME}
 
 echo "Service exited"
 rm -f /app/RUNNING_PID
