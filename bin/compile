@@ -48,8 +48,7 @@ ln -s ${JAVA_VERSION} java
 popd
 
 cd $BUILD_DIR
-chmod u+x conf/artifact.sh
-conf/artifact.sh
+. ./conf/artifact.sh
 
 pushd ${BUILD_DIR}
 curl ${APP_REPO_URL}/${APP_ARTIFACT}  | tar -xz --strip 1
