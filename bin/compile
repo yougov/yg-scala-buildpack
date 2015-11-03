@@ -77,9 +77,9 @@ exec java -Dhttp.port=\$PORT \
 -Xms\$XMS -Xmx\$XMX \
 -server  \
 -javaagent:/app/newrelic/newrelic.jar \
+-Dlogger.file=/app/conf/logger.xml \
 -Dnewrelic.config.file=\$APP_SETTINGS_YAML \
 -cp "/app/lib/*" play.core.server.NettyServer /app/ \
--Dlogger.file=/app/conf/logger.xml \
 2>&1 | logger -i -p local1.warning -t ${APP_NAME}
 
 echo "Service exited"
