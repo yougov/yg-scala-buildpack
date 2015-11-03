@@ -14,8 +14,6 @@ JRE_URL="${S3_URL}/scala/${JRE_FILE}"
 
 NEWRELIC_URL="${S3_URL}/scala/newrelic.jar"
 
-APP_REPO_URL="http://nexus.stgwaw.opigram/content/repositories/distributions"
-
 BUILD_DIR="$1"
 CACHE_DIR="$2"
 BUNDLE_DIR=${CACHE_DIR}/bundles
@@ -51,7 +49,7 @@ cd $BUILD_DIR
 . ./conf/artifact.sh
 
 pushd ${BUILD_DIR}
-curl ${APP_REPO_URL}/${APP_ARTIFACT}  | tar -xz --strip 1
+curl $APP_ARTIFACT_URL | tar -xz --strip 1
 popd
 
 pushd ${BUILD_DIR}/newrelic
