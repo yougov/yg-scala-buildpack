@@ -80,7 +80,7 @@ exec java -Dhttp.port=\$PORT \
 -Dlogger.file=/app/conf/logger.xml \
 -Dnewrelic.config.file=\$APP_SETTINGS_YAML \
 -cp "/app/lib/*" play.core.server.NettyServer /app/ \
-2>&1 | logger -i -p local7.info -t 'supervisord: ${APP_NAME}:'
+2>&1 | logger -i -p local7.info -t 'ygo-${APP_NAME}:'
 
 echo "Service exited"
 rm -f /app/RUNNING_PID
