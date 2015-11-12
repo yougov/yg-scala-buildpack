@@ -68,7 +68,6 @@ XMS=\${XMS:-256M}
 XMX=\${XMX:-256M}
 APP_ENV=\${APP_ENV:-UNKNOWN}
 MAX_PERM_SIZE=\${MAX_PERM_SIZE:-256M}
-INSTANCE=\${INSTANCE:-undefined}
 
 exec java -Dhttp.port=\$PORT \
 -Dhttp.address=0.0.0.0 \
@@ -81,7 +80,7 @@ exec java -Dhttp.port=\$PORT \
 -Dlogger.file=/app/conf/logger.xml \
 -Dnewrelic.config.file=\$APP_SETTINGS_YAML \
 -cp "/app/lib/*" play.core.server.NettyServer /app/ \
-2>&1 | tee >(logger -i -p local7.info -t ygo-${APP_NAME}-${INSTANCE})
+2>&1 | tee >(logger -i -p local7.info -t ygo-${APP_NAME}-${APP_ENV})
 
 echo "Service exited"
 rm -f /app/RUNNING_PID
