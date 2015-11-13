@@ -80,7 +80,7 @@ exec java -Dhttp.port=\$PORT \
 -Dlogger.file=/app/conf/logger.xml \
 -Dnewrelic.config.file=\$APP_SETTINGS_YAML \
 -cp "/app/lib/*" play.core.server.NettyServer /app/ \
-2>&1 | awk -v app_env=$APP_ENV '{print "ygo-filter-service-"app_env" " $0}' | tee >(logger -i -p local7.info)
+2>&1 | awk -v app_env=\$APP_ENV '{print "ygo-filter-service-"app_env" " \$0}' | tee >(logger -i -p local7.info)
 
 
 
