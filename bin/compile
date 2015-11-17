@@ -71,6 +71,7 @@ MAX_PERM_SIZE=\${MAX_PERM_SIZE:-256M}
 
 exec java -Dhttp.port=\$PORT \
 -Dhttp.address=0.0.0.0 \
+-Duser.timezone=UTC \
 -XX:+UseConcMarkSweepGC \
 -XX:-OmitStackTraceInFastThrow \
 -XX:MaxPermSize=\$MAX_PERM_SIZE \
