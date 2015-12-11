@@ -1,1 +1,4 @@
 #!/bin/bash
+
+# this buildpack cannot be selected through detection
+exit 1
