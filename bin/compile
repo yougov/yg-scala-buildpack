@@ -5,7 +5,7 @@ set -x
 
 JAVA_VERSION="jre1.8.0_0"
 S3_BUCKET="yg-buildpack-assets"
-JRE_FILE_MD5='1114d266b4fb332ed109f6e2f2af589b'
+JRE_FILE_MD5='b9ff2e54d4e7873a96361ddec906eb69'
 
 S3_URL="http://${S3_BUCKET}.s3.amazonaws.com"
 
