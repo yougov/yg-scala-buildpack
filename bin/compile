@@ -79,6 +79,7 @@ exec java -Dhttp.port=\$PORT \
 -server  \
 -javaagent:/app/newrelic/newrelic.jar \
 -Dlogger.file=/app/conf/logger.xml \
+-Dconfig.file=/app/conf/application.conf \
 -Dnewrelic.config.file=\$APP_SETTINGS_YAML \
 -cp "/app/lib/*" play.core.server.NettyServer /app/ \
 2>&1 | awk -v app_env=\$APP_ENV -v app_name=${APP_NAME} '{print "ygo-"app_name"-"app_env" " \$0}' | tee >(logger -i -p local7.info)
