@@ -3,7 +3,7 @@
 set -e
 set -x
 
-JAVA_VERSION="jre1.8.0_0"
+JAVA_VERSION="jre1.8.0_60"
 S3_BUCKET="yg-buildpack-assets"
 JRE_FILE_MD5='b9ff2e54d4e7873a96361ddec906eb69'
 
