@@ -3,7 +3,7 @@
 set -e
 set -x
 
-JAVA_VERSION="jre1.7.0_80"
+JAVA_VERSION="jre1.8.0_0"
 S3_BUCKET="yg-buildpack-assets"
 JRE_FILE_MD5='1114d266b4fb332ed109f6e2f2af589b'
 
@@ -69,14 +69,12 @@ export APP_NAME=${APP_NAME}
 XMS=\${XMS:-256M}
 XMX=\${XMX:-256M}
 APP_ENV=\${APP_ENV:-UNKNOWN}
-MAX_PERM_SIZE=\${MAX_PERM_SIZE:-256M}
 
 exec java -Dhttp.port=\$PORT \
 -Dhttp.address=0.0.0.0 \
 -Duser.timezone=UTC \
 -XX:+UseConcMarkSweepGC \
 -XX:-OmitStackTraceInFastThrow \
--XX:MaxPermSize=\$MAX_PERM_SIZE \
 -Xms\$XMS -Xmx\$XMX \
 -server  \
 -javaagent:/app/newrelic/newrelic.jar \
