@@ -70,6 +70,8 @@ XMS=\${XMS:-256M}
 XMX=\${XMX:-256M}
 APP_ENV=\${APP_ENV:-UNKNOWN}
 
+echo "Starting \$APP_NAME"
+
 exec java -Dhttp.port=\$PORT \
 -Dhttp.address=0.0.0.0 \
 -Duser.timezone=UTC \
@@ -82,7 +84,7 @@ exec java -Dhttp.port=\$PORT \
 -Dconfig.file=/app/conf/application.conf \
 -Dnewrelic.config.file=\$APP_SETTINGS_YAML \
 -cp "/app/lib/*" play.core.server.NettyServer /app/ \
-2>&1 | awk -v app_env=\$APP_ENV -v app_name=${APP_NAME} '{print "ygo-"app_name"-"app_env" " \$0}' | tee >(logger -i -p local7.info)
+2>&1 | awk -v app_env=\$APP_ENV -v app_name=${APP_NAME} '{print "ygo-"app_name"-"app_env" " \$0}' | tee >(logger -i -p local7.info) || true
 
 echo "Service exited"
 rm -f /app/RUNNING_PID
