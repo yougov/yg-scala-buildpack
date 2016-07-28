@@ -76,6 +76,7 @@ exec java -Dhttp.port=\$PORT \
 -Dpidfile.path=/dev/null \
 -Dhttp.address=0.0.0.0 \
 -Duser.timezone=UTC \
+-Dfile.encoding=UTF-8 \
 -XX:+UseConcMarkSweepGC \
 -XX:-OmitStackTraceInFastThrow \
 -Xms\$XMS -Xmx\$XMX \
