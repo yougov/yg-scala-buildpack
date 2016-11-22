@@ -70,7 +70,7 @@ XMS=\${XMS:-256M}
 XMX=\${XMX:-256M}
 APP_ENV=\${APP_ENV:-UNKNOWN}
 
-echo "Starting \$APP_NAME"
+echo "ygo-\${APP_NAME}-\${APP_ENV} \$(date +'%Y-%m-%d %H:%M:%S,%3N') [INFO] Service Starting"
 
 exec java -Dhttp.port=\$PORT \
 -Dpidfile.path=/dev/null \
@@ -82,13 +82,13 @@ exec java -Dhttp.port=\$PORT \
 -Xms\$XMS -Xmx\$XMX \
 -server  \
 -javaagent:/app/newrelic/newrelic.jar \
--Dlogger.file=/app/conf/logger.xml \
+-Dlogger.file=/app/conf/logger-vr.xml \
 -Dconfig.file=/app/conf/application.conf \
 -Dnewrelic.config.file=\$APP_SETTINGS_YAML \
--cp "/app/lib/*" play.core.server.NettyServer /app/ \
-2>&1 | awk -v app_env=\$APP_ENV -v app_name=${APP_NAME} '{print "ygo-"app_name"-"app_env" " \$0}' | tee >(logger -i -p local7.info)
+-cp "/app/lib/*" play.core.server.NettyServer /app/ 2>&1
 
-echo "Service exited"
+echo "ygo-\${APP_NAME}-\${APP_ENV} \$(date +'%Y-%m-%d %H:%M:%S,%3N') [INFO] Service Existed"
+
 rm -f /app/RUNNING_PID
 exit 1
 SH
