@@ -26,12 +26,12 @@ if [ -f "${BUNDLE_DIR}/${JRE_FILE}" ]; then
     SUM=`md5sum ${BUNDLE_DIR}/${JRE_FILE} | cut -d ' ' -f 1`
     if ! [ "$SUM" = "$JRE_FILE_MD5" ]; then
         pushd ${BUNDLE_DIR}
-        curl -O $JRE_URL 
+        curl -O $JRE_URL
         popd
     fi
 else
     pushd ${BUNDLE_DIR}
-    curl -O $JRE_URL 
+    curl -O $JRE_URL
     popd
     SUM=`md5sum ${BUNDLE_DIR}/${JRE_FILE} | cut -d ' ' -f 1`
     if ! [ "$SUM" = "$JRE_FILE_MD5" ]; then
@@ -85,7 +85,7 @@ exec java -Dhttp.port=\$PORT \
 -Dlogger.file=/app/conf/logger-vr.xml \
 -Dconfig.file=/app/conf/application.conf \
 -Dnewrelic.config.file=\$APP_SETTINGS_YAML \
--cp "/app/lib/*" play.core.server.NettyServer /app/ 2>&1
+-cp "/app/lib/*" play.core.server.ProdServerStart /app/ 2>&1
 
 echo "ygo-\${APP_NAME}-\${APP_ENV} \$(date +'%Y-%m-%d %H:%M:%S,%3N') [INFO] Service Existed"
 
