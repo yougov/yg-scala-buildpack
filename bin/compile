@@ -87,7 +87,7 @@ exec java -Dhttp.port=\$PORT \
 -Dnewrelic.config.file=\$APP_SETTINGS_YAML \
 -cp "/app/lib/*" play.core.server.ProdServerStart /app/ 2>&1
 
-echo "ygo-\${APP_NAME}-\${APP_ENV} \$(date +'%Y-%m-%d %H:%M:%S,%3N') [INFO] Service Existed"
+echo "ygo-\${APP_NAME}-\${APP_ENV} \$(date +'%Y-%m-%d %H:%M:%S,%3N') [INFO] Service Exited"
 
 rm -f /app/RUNNING_PID
 exit 1
