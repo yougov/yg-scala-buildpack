@@ -85,7 +85,7 @@ exec java -Dhttp.port=\$PORT \
 -Dlogger.file=/app/conf/logger-vr.xml \
 -Dconfig.file=/app/conf/application.conf \
 -Dnewrelic.config.file=\$APP_SETTINGS_YAML \
--cp "/app/lib/*" play.core.server.ProdServerStart /app/ 2>&1
+-cp "/app/lib/*:/app/conf" play.core.server.ProdServerStart /app/ 2>&1
 
 echo "ygo-\${APP_NAME}-\${APP_ENV} \$(date +'%Y-%m-%d %H:%M:%S,%3N') [INFO] Service Exited"
 
