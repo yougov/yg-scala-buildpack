@@ -48,6 +48,9 @@ popd
 cd $BUILD_DIR
 . ./conf/artifact.sh
 
+APP_VERSION=`cat version.sbt | cut -d "=" -f 2 | sed -e 's/"//g' | awk '{$1=$1;print}'`
+APP_ARTIFACT_URL=`echo $APP_ARTIFACT_URL | sed -e 's/{APP_VERSION}/'"$APP_VERSION"'/g'`
+
 pushd ${BUILD_DIR}
 curl $APP_ARTIFACT_URL | tar -xz --strip 1
 popd
