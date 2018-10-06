@@ -68,6 +68,7 @@ export PATH="/app/vendor/java/bin:\$HOME/bin:$PATH"
 export JAVA_HOME="/app/vendor/java"
 export APP_VERSION=${APP_VERSION}
 export APP_NAME=${APP_NAME}
+export HOSTNAME=\`hostname --long\`
 
 XMS=\${XMS:-256M}
 XMX=\${XMX:-256M}
